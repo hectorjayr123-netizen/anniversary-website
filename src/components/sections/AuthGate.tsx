@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button, Container } from "@ui";
-import { Flower2, Heart, Lock, Unlock, Sparkles } from "lucide-react";
+import { Flower2, Heart, Lock, Unlock, Sparkles, Calendar } from "lucide-react";
 import { cn } from "@utils/cn";
 
 interface AuthGateProps {
@@ -12,28 +12,33 @@ const QUESTIONS = [
   {
     id: "anniversary",
     label: "Anniversary Date?",
-    answer: "September 28, 2024",
-    placeholder: "e.g., September 28, 2024",
-    icon: Heart,
+    answer: "2024-09-28",
+    type: "date" as const,
+    icon: Calendar,
   },
   {
     id: "birthdate",
     label: "Your Birthdate?",
-    answer: "January 1, 2007",
-    placeholder: "e.g., January 1, 2007",
-    icon: Flower2,
+    answer: "2007-01-01",
+    type: "date" as const,
+    icon: Calendar,
   },
   {
     id: "fruit",
     label: "Favorite Fruit?",
-    answer: "Strawberry",
-    placeholder: "e.g., Strawberry",
+    answer: "strawberry",
+    type: "text" as const,
     icon: Sparkles,
   },
 ] as const;
 
 function normalizeAnswer(input: string) {
   return input.trim().toLowerCase();
+}
+
+function formatDateForDisplay(dateStr: string) {
+  const date = new Date(dateStr + "T00:00:00");
+  return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 }
 
 export function AuthGate({ onSuccess }: AuthGateProps) {
@@ -136,25 +141,45 @@ export function AuthGate({ onSuccess }: AuthGateProps) {
                 <q.icon className="w-4 h-4 text-rose-pink" aria-hidden="true" />
                 {q.label}
               </label>
-              <input
-                id={q.id}
-                type="text"
-                value={answers[q.id] || ""}
-                onChange={(e) => handleChange(q.id, e.target.value)}
-                placeholder={q.placeholder}
-                className={cn(
-                  "w-full px-4 py-3 rounded-xl border bg-warm-white/80 text-foreground placeholder:text-muted/60 transition-all",
-                  errors[q.id]
-                    ? "border-rose-pink/60 focus:border-rose-pink focus:ring-rose-pink/20 bg-rose-pink/5"
-                    : "border-blush-pink/40 focus:border-rose-pink focus:ring-rose-pink/20",
-                  "focus:outline-none focus:ring-2"
-                )}
-                autoComplete="off"
-                autoCapitalize="words"
-                disabled={isSubmitting || showSuccess}
-                aria-invalid={errors[q.id] ? "true" : "false"}
-                aria-describedby={errors[q.id] ? `${q.id}-error` : undefined}
-              />
+              {q.type === "date" ? (
+                <input
+                  id={q.id}
+                  type="date"
+                  value={answers[q.id] || ""}
+                  onChange={(e) => handleChange(q.id, e.target.value)}
+                  className={cn(
+                    "w-full px-4 py-3 rounded-xl border bg-warm-white/80 text-foreground transition-all",
+                    errors[q.id]
+                      ? "border-rose-pink/60 focus:border-rose-pink focus:ring-rose-pink/20 bg-rose-pink/5"
+                      : "border-blush-pink/40 focus:border-rose-pink focus:ring-rose-pink/20",
+                    "focus:outline-none focus:ring-2"
+                  )}
+                  autoComplete="off"
+                  disabled={isSubmitting || showSuccess}
+                  aria-invalid={errors[q.id] ? "true" : "false"}
+                  aria-describedby={errors[q.id] ? `${q.id}-error` : undefined}
+                  max={new Date().toISOString().split("T")[0]}
+                />
+              ) : (
+                <input
+                  id={q.id}
+                  type="text"
+                  value={answers[q.id] || ""}
+                  onChange={(e) => handleChange(q.id, e.target.value)}
+                  className={cn(
+                    "w-full px-4 py-3 rounded-xl border bg-warm-white/80 text-foreground transition-all",
+                    errors[q.id]
+                      ? "border-rose-pink/60 focus:border-rose-pink focus:ring-rose-pink/20 bg-rose-pink/5"
+                      : "border-blush-pink/40 focus:border-rose-pink focus:ring-rose-pink/20",
+                    "focus:outline-none focus:ring-2"
+                  )}
+                  autoComplete="off"
+                  autoCapitalize="words"
+                  disabled={isSubmitting || showSuccess}
+                  aria-invalid={errors[q.id] ? "true" : "false"}
+                  aria-describedby={errors[q.id] ? `${q.id}-error` : undefined}
+                />
+              )}
               {errors[q.id] && (
                 <motion.p
                   id={`${q.id}-error`}
