@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { MUSIC_TRACKS } from "@constants/music";
+import { AuthGate } from "@sections/AuthGate";
 import { FinaleSection } from "@sections/FinaleSection";
 import { LabyrinthSection } from "@sections/LabyrinthSection";
 import { LoveLetterSection } from "@sections/LoveLetterSection";
@@ -10,13 +11,17 @@ import { OpeningExperience } from "@sections/OpeningExperience";
 import { OpeningReveal } from "@sections/OpeningReveal";
 import { TimelineSection } from "@sections/TimelineSection";
 
-type AppStage = "opening" | "reveal";
+type AppStage = "auth" | "opening" | "reveal";
 
 function App() {
-  const [stage, setStage] = useState<AppStage>("opening");
+  const [stage, setStage] = useState<AppStage>("auth");
   // audio created at "Open My Gift" click time (inside the user gesture) so the
   // gift music can start immediately; the player section adopts this element.
   const gameAudio = useRef<HTMLAudioElement | null>(null);
+
+  const handleAuthSuccess = () => {
+    setStage("opening");
+  };
 
   const handleOpenComplete = () => {
     if (!gameAudio.current) {
@@ -33,13 +38,15 @@ function App() {
   };
 
   const replay = () => {
-    setStage("opening");
+    setStage("auth");
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   return (
     <AnimatePresence initial={false} mode="popLayout">
-      {stage === "opening" ? (
+      {stage === "auth" ? (
+        <AuthGate key="auth" onSuccess={handleAuthSuccess} />
+      ) : stage === "opening" ? (
         <OpeningExperience key="opening" onComplete={handleOpenComplete} />
       ) : (
         <motion.main
