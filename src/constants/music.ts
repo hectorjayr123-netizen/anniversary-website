@@ -19,6 +19,14 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     artwork: "/images/music/born-for-you.jpg",
   },
   {
+    id: "photograph",
+    title: "Photograph",
+    artist: "Ed Sheeran",
+    filename: "photograph.mp3",
+    file: "/music/photograph.mp3",
+    artwork: "/images/music/photograph.jpg",
+  },
+  {
     id: "love-will-keep-us-alive",
     title: "Love Will Keep Us Alive",
     artist: "Eagles",
@@ -27,12 +35,12 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     artwork: "/images/music/love-will-keep-us-alive.jpg",
   },
   {
-    id: "photograph",
-    title: "Photograph",
-    artist: "Ed Sheeran",
-    filename: "photograph.mp3",
-    file: "/music/photograph.mp3",
-    artwork: "/images/music/photograph.jpg",
+    id: "18",
+    title: "18",
+    artist: "One Direction",
+    filename: "18.mp3",
+    file: "/music/18.mp3",
+    artwork: "/images/music/18.jpg",
   },
   {
     id: "simpleng-tulad-mo",

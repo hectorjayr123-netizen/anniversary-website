@@ -176,7 +176,7 @@ export function MusicSection({ externalAudio }: { externalAudio?: RefObject<HTML
         >
           <p className="section-kicker">Our soundtrack</p>
           <h2 id="music-title" className="mt-4">The songs of us</h2>
-          <p className="mt-4 text-sm text-muted sm:text-base">Three songs that sound like us. Press play whenever your heart wants to listen.</p>
+          <p className="mt-4 text-sm text-muted sm:text-base">Songs that sound like us. Press play whenever your heart wants to listen.</p>
         </motion.header>
 
         <motion.div
