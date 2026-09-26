@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { MUSIC_TRACKS } from "@constants/music";
 import { AuthGate } from "@sections/AuthGate";
+import { FingerprintScan } from "@sections/FingerprintScan";
 import { FinaleSection } from "@sections/FinaleSection";
 import { LabyrinthSection } from "@sections/LabyrinthSection";
 import { LoveLetterSection } from "@sections/LoveLetterSection";
@@ -62,6 +63,7 @@ function App() {
           <LoveLetterSection />
           <TimelineSection />
           <LabyrinthSection />
+          <FingerprintScan />
           <FinaleSection onReplay={replay} />
         </motion.main>
       )}
