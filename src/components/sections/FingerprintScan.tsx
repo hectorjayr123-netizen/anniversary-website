@@ -1,9 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Fingerprint, Check, Loader2, Heart, Sparkles } from "lucide-react";
+import { Fingerprint, Check, Loader2, Heart, Sparkles, Download, Star } from "lucide-react";
 import { cn } from "@utils/cn";
 
 const CERTIFICATE_IMAGE = "/images/marriage-certificate.png";
+
+const downloadCertificate = () => {
+  const link = document.createElement("a");
+  link.href = CERTIFICATE_IMAGE;
+  link.download = "marriage-certificate.png";
+  link.target = "_blank";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
 export function FingerprintScan() {
   const [stage, setStage] = useState<"idle" | "scanning" | "success" | "certificate">("idle");
@@ -203,6 +213,16 @@ export function FingerprintScan() {
             <div className="relative mb-8">
               <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-amber-100/30 rounded-2xl blur-xl" />
               <div className="relative rounded-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] overflow-hidden border border-gold/40">
+                <div className="absolute top-4 right-4 z-10">
+                  <motion.button
+                    onClick={downloadCertificate}
+                    className="p-2 rounded-full bg-warm-white/95 backdrop-blur-sm shadow-lg border border-gold/30 text-amber-700 hover:bg-amber-50 hover:scale-105 transition-all"
+                    whileTap={{ scale: 0.9 }}
+                    aria-label="Download certificate"
+                  >
+                    <Download className="w-5 h-5" aria-hidden="true" />
+                  </motion.button>
+                </div>
                 <img
                   src={CERTIFICATE_IMAGE}
                   alt="Marriage Certificate"
@@ -223,6 +243,19 @@ export function FingerprintScan() {
                 </div>
               </div>
             </div>
+
+            <motion.div
+              className="text-center my-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-amber-400 to-amber-600 text-white font-bold text-sm sm:text-base shadow-[0_10px_30px_-10px_rgba(217,119,6,0.5)]">
+                <Star className="w-4 h-4 animate-pulse" aria-hidden="true" />
+                <span>WE ARE NOW MARRIED, I LOVE YOU TO INFINITY AND BEYOND BABI</span>
+                <Star className="w-4 h-4 animate-pulse" aria-hidden="true" />
+              </div>
+            </motion.div>
 
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
