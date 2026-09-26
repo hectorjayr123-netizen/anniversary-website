@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Fingerprint, Check, Loader2, Heart, Sparkles } from "lucide-react";
 import { cn } from "@utils/cn";
 
-const CERTIFICATE_IMAGE = "/images/marriage-certificate.jpg";
+const CERTIFICATE_IMAGE = "/images/marriage-certificate.png";
 
 export function FingerprintScan() {
   const [stage, setStage] = useState<"idle" | "scanning" | "success" | "certificate">("idle");
